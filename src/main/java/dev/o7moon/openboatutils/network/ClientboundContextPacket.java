@@ -16,7 +16,8 @@ public enum ClientboundContextPacket {
     SWITCH_CONTEXT,
     DROP_CONTEXT,
     STORE_CONTEXT,
-    ENTITY_CONTEXT;
+    ENTITY_CONTEXT,
+    DROP_ENTITY_CONTEXT;
 
     public static void handlePacket(PacketByteBuf buf) {
         try {
@@ -96,6 +97,11 @@ public enum ClientboundContextPacket {
                 ClientboundSettingsPacket.handleContextPacketPayload(entityContext, buf, ClientboundSettingsPacket.COMPOUND, true);
 
                 OpenBoatUtils.instance.putEntityContext(id, entityContext);
+            }
+            case DROP_ENTITY_CONTEXT -> {
+                UUID id = UUID.fromString(buf.readString());
+
+                OpenBoatUtils.instance.dropEntityContext(id);
             }
         }
     }

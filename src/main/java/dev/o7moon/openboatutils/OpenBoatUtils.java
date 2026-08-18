@@ -103,6 +103,10 @@ public class OpenBoatUtils extends MutableContext implements ModInitializer {
         entity_contexts.put(uuid, context);
     }
 
+    public void dropEntityContext(UUID uuid) {
+        entity_contexts.remove(uuid);
+    }
+
     public @Nullable StoredContext dropStoredContext(Identifier identifier) {
         return stored_contexts.remove(identifier);
     }
