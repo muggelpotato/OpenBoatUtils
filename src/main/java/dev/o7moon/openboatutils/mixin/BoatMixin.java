@@ -668,7 +668,13 @@ public abstract class BoatMixin implements GetStepHeight, GetNearbySetting {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        @Nullable ISettingContext context = OpenBoatUtils.instance.getActiveContext();
+        BoatEntity boat = (BoatEntity) (Object) this;
+
+        @Nullable ISettingContext boatContext = OpenBoatUtils.instance.getEntityContext(boat.getUuid());
+
+        @Nullable ISettingContext context = boatContext != null
+                ? boatContext
+                : OpenBoatUtils.instance.getActiveContext();
 
         float currentScale = 1f;
 
@@ -678,7 +684,7 @@ public abstract class BoatMixin implements GetStepHeight, GetNearbySetting {
 
         if (currentScale != openBoatUtils$lastScale) {
             openBoatUtils$lastScale = currentScale;
-            ((BoatEntity) (Object) this).calculateDimensions();
+            boat.calculateDimensions();
         }
     }
 
